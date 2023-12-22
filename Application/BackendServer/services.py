@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from Application.BackendServer.spectrogram import createSpectrogram
+from spectrogram import createSpectrogram
 import random
 
 app = Flask(__name__)
