@@ -5,15 +5,6 @@ import random
 
 app = Flask(__name__)
 
-# model = joblib.load('tf_binary_model.h5')
-# print("model loaded")
-
-# @app.before_request()
-# def load_model():
-#     global model
-#     model = joblib.load('tf_binary_model.h5')
-#     print("model loaded")
-
 
 @app.route('/')
 def index():
@@ -23,7 +14,6 @@ def index():
 
 @app.route('/giveResult', methods=['GET'])
 def giveResult():
-    print("hiiiii")
     audio = request.files['audio']
     result = createSpectrogram(audio)
     return result
