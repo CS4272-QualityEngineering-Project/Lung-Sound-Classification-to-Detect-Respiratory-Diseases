@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 from flask import jsonify
 
-from Application.BackendServer.classificationModel import do_primary_prediction, do_secondary_prediction
+from classificationModel import do_primary_prediction, do_secondary_prediction
 
 
 def generate_mel_spec(audio):
