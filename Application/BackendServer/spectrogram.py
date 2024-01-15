@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 from flask import jsonify
 
-from Application.BackendServer.classificationModel import do_primary_prediction, do_secondary_prediction
+from classificationModel import do_primary_prediction, do_secondary_prediction
 
 
 def generate_mel_spec(audio):
@@ -29,45 +29,6 @@ def createSpectrogram(audio):
 
     # Load audio file
     y, sr = librosa.load(audio, sr=22500, duration=6)
-
-    # mean = np.mean(y)
-    # std = np.std(y)
-    # norm_audio = (y - mean) / std
-
-    # # Extract spectrogram
-    # spectrogram = librosa.feature.melspectrogram(y=norm_audio, sr=sr, n_fft=2048, hop_length=512, n_mels=128)
-    #
-    # # Plot Mel spectrogram
-    # plt.figure(figsize=(3, 3))
-    # librosa.display.specshow(librosa.power_to_db(spectrogram, ref=np.max), y_axis='mel', x_axis='time')
-    # plt.axis('off')
-    # plt.subplots_adjust(left=0, right=1, bottom=0, top=1)
-    # # plt.show()
-    # plt.savefig("mel_spec_plot.png", bbox_inches='tight', pad_inches=0)
-    # plt.close()
-    # print("mel_spec_plot.png saved")
-    #
-    # # Extract MFCC
-    # mfcc = librosa.feature.mfcc(y=norm_audio, n_mfcc=128, n_fft=2048, hop_length=512)
-    # plt.figure(figsize=(3, 3))
-    # librosa.display.specshow(mfcc, x_axis='time')
-    # plt.axis('off')
-    # plt.subplots_adjust(left=0, right=1, bottom=0, top=1)
-    # # plt.show()
-    # plt.savefig("mfcc_plot.png")
-    # plt.close()
-    # print("mfcc_plot.png saved")
-    #
-    # # Extract Chroma
-    # chroma = librosa.feature.chroma_stft(y=norm_audio, sr=22050, n_chroma=128, n_fft=2048, hop_length=512)
-    # plt.figure(figsize=(3, 3))
-    # librosa.display.specshow(chroma, y_axis='chroma', x_axis='time')
-    # plt.axis('off')
-    # plt.subplots_adjust(left=0, right=1, bottom=0, top=1)
-    # # plt.show()
-    # plt.savefig("chroma.png")
-    # plt.close()
-    # print("chroma.png saved")
 
     mel = generate_mel_spec(y)
     mfcc_1 = generate_mfcc(y)
@@ -92,8 +53,19 @@ def createSpectrogram(audio):
         result_data = {'result': False, 'diseases': {}}
         return jsonify(result_data)
     else:
+        severity = {
+            "Asthma": 1,
+            "Bronchiectasis": 1,
+            "Bronchiolitis": 2,
+            "Bronchitis": 3,
+            "COPD": 1,
+            "Lung Fibrosis": 2,
+            "Pleural Effusion": 3,
+            "Pneumonia": 2,
+            "URTI": 2
+        }
         secondary_result = do_secondary_prediction(expanded_sample)
         for key, value in secondary_result.items():
             if isinstance(value, np.float32):
-                secondary_result[key] = float(value)
+                secondary_result[key] = [float(value), severity[key]]
         return jsonify(secondary_result)
