@@ -12,12 +12,17 @@ def index():
     return "hello"
 
 
-@app.route('/giveResult', methods=['GET'])
+@app.route('/giveResult', methods=['POST'])
 def giveResult():
-    audio = request.files['audio']
+    audio = request.data
+
+    with open('received_audio.wav', 'wb') as wav_file:
+        wav_file.write(audio)
+
     result = createSpectrogram(audio)
-    return result
+    print("hello")
+    return "hello"
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False,host='0.0.0.0', port=8080)
