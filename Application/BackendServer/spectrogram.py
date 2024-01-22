@@ -65,7 +65,15 @@ def createSpectrogram(audio):
             "URTI": 2
         }
         secondary_result = do_secondary_prediction(expanded_sample)
-        for key, value in secondary_result.items():
-            if isinstance(value, np.float32):
-                secondary_result[key] = [float(value), severity[key]]
-        return jsonify(secondary_result)
+        severities = []
+
+        for disease in secondary_result['diseases']:
+            severities.append(severity[disease])
+        secondary_result['severities'] = severities
+        floated_probabilities = []
+        for i in secondary_result['probabilities']:
+            if isinstance(i, np.float32):
+                floated_probabilities.append(float(i))
+        secondary_result['probabilities'] = floated_probabilities
+        print("secondary_result", secondary_result)
+        return secondary_result

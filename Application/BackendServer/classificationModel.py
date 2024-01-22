@@ -28,10 +28,15 @@ def do_secondary_prediction(spectrogram):
     disease_list = ['Asthma', 'Bronchiectasis', 'Bronchiolitis', "Bronchitis", 'COPD', 'Lung Fibrosis',
                     'Pleural Effusion', 'Pneumonia', 'URTI']
     predicted_disease = {}
+    diseases = []
     for i in range(3):
         print(i)
         disease = disease_list[indexes_of_top3_values[i]]
-        print("disease", disease)
-        predicted_disease[disease] = top3_values[i]
-    print(predicted_disease)
+        diseases.insert(i, disease)
+        # print("disease", disease)
+        # predicted_disease[disease] = top3_values[i]
+    print("diseases", diseases)
+    predicted_disease['diseases'] = diseases
+    predicted_disease['probabilities'] = top3_values
+    print("predicted diseases",predicted_disease)
     return predicted_disease
