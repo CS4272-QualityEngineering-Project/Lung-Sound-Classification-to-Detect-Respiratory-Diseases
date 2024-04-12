@@ -2,7 +2,7 @@ from keras.models import load_model
 
 
 def do_primary_prediction(spectrogram):
-    loaded_model = load_model('binary_model.h5')
+    loaded_model = load_model('binary_model_v1_96.h5')
     print("model loaded")
     result = loaded_model.predict(spectrogram, batch_size=1)
     print("result", result[0][0])
