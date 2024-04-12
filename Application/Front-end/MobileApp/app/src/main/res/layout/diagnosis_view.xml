@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DiagnosisActivity"
+    android:background="?attr/colorOnSecondary">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <!-- Gradient box -->
+    <RelativeLayout
+        android:id="@+id/fd_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fd_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+
+        <!-- Text View -->
+        <!--        TODO: Add a designed logo instead -->
+        <TextView
+            android:id="@+id/fd_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/koho_bold"
+            android:text="@string/dioglung_logo"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="48sp" />
+    </RelativeLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="20dp"
+
+
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/fd_background"
+
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="?attr/colorPrimaryVariant"
+
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="5dp"
+
+                    android:fontFamily="@font/koho_semibold"
+
+                    android:text="@string/diagnosis"
+                    android:textColor="@color/grey"
+                    android:textSize="15sp"
+
+                    android:paddingTop="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+
+                    android:background="@color/grey_low_transparent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/diagnosis_result"
+
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    />
+
+
+                <Button
+                    android:id="@+id/diagnosis_seemore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/transparent_see_more"
+                    android:foreground="?android:attr/selectableItemBackground"
+
+
+                    android:layout_marginTop="10dp"
+
+                    android:fontFamily="@font/koho_semibold"
+
+                    android:text="@string/show_more"
+
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+
+                    />
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">LungSoundClassification</string>
+    <string name="dioglung_logo">DiogLung</string>
+    <string name="upload_audio">Upload Audio</string>
+    <string name="diagnosis">DIAGNOSIS</string>
+    <string name="show_more">SHOW MORE</string>
+    <string name="show_less">SHOW LESS</string>
+    <string name="confident_level">12.05%</string>
+    <string name="disease">Disease</string>
+</resources>
