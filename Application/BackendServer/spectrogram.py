@@ -28,7 +28,7 @@ def createSpectrogram(audio):
     print("createSpectrogram called")
 
     # Load audio file
-    y, sr = librosa.load(audio, sr=22500, duration=6)
+    y, sr = librosa.load(audio, sr=22500, duration=6 )
 
     mel = generate_mel_spec(y)
     mfcc_1 = generate_mfcc(y)
@@ -40,13 +40,15 @@ def createSpectrogram(audio):
     plt.axis('off')
     plt.subplots_adjust(left=0, right=1, bottom=0, top=1)
     # plt.show()
-    plt.savefig("stacked.png")
+    # plt.savefig("stacked.png")
     plt.close()
     print("stacked.png saved")
 
-    expanded_sample = tf.expand_dims(three_chanel, axis=0)
+    # expanded_sample = tf.expand_dims(three_chanel, axis=0)
+    expanded_sample = np.array([three_chanel])
 
-    print(expanded_sample.shape)
+    print("expanded spec shape",expanded_sample.shape)
+    print("expanded spec",expanded_sample)
 
     result = do_primary_prediction(expanded_sample)
     if not result:
