@@ -2,6 +2,7 @@ import librosa
 import librosa.display
 import numpy as np
 from flask import jsonify
+from matplotlib import pyplot as plt
 
 from classificationModel import do_primary_prediction, do_secondary_prediction
 
@@ -18,6 +19,43 @@ def generate_mfcc(audio):
 
 def generate_chroma(audio):
     chroma = librosa.feature.chroma_stft(y=audio, sr=22050, n_chroma=128, n_fft=2048, hop_length=512)
+
+    # # Write the array to a text file with desired formatting
+    # with open('chroma_spec.txt', 'w') as f:
+    #     f.write('[')
+    #     for row in chroma:
+    #         f.write('[%s],' % ', '.join(map(str, row)))
+    #     f.write(']')
+    #
+    # # Read the text file
+    # with open('chroma_spec.txt', 'r') as f:
+    #     # Read the content of the file
+    #     content = f.read()
+    #
+    # # Remove the outer square brackets
+    # content = content.strip('[]')
+    #
+    # # Split the content into individual row strings
+    # rows = content.split('],[')
+    #
+    # # Convert each row string into a list of float32 values
+    # data = []
+    # for row in rows:
+    #     # Remove any extra whitespace and closing bracket from the row string
+    #     row = row.strip().strip(']')
+    #     # Split the row string into individual values
+    #     values = row.split(',')
+    #     # Convert each non-empty value to float32 after removing non-numeric characters
+    #     row_values = [np.float32(value.strip('][')) for value in values if value.strip('][')]
+    #     data.append(row_values)
+    #
+    # # Convert the data into a NumPy array of float32 values
+    # chroma_spec = np.array(data, dtype=np.float32)
+    #
+    # print("Mel spectrogram loaded from mel_spec.txt:")
+    # print(chroma_spec)
+    # if (chroma_spec == chroma).all():
+    #     print("Both arrays are equal")
     return chroma
 
 
