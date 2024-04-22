@@ -8,8 +8,12 @@ from classificationModel import do_primary_prediction, do_secondary_prediction
 
 
 def generate_mel_spec(audio):
-    mel = librosa.power_to_db(librosa.feature.melspectrogram(y=audio, sr=22050, n_mels=128, n_fft=2048, hop_length=512))
-    return mel
+    try:
+        mel = librosa.power_to_db(librosa.feature.melspectrogram(y=audio, sr=22050, n_mels=128, n_fft=2048, hop_length=512))
+        return mel
+    except Exception as e:
+        print(e)
+        return None
 
 
 def generate_mfcc(audio):
@@ -80,16 +84,15 @@ def get_severity_level(diseases):
         "URTI": 2
     }
     severities = []
-    for disease in diseases:
-        severities.append(severity[disease])
+    for i in range(len(diseases)):
+        severities.append(severity[diseases[i]])
     return severities
 
 
 def convert_probabilities_to_float(probabilities):
     floated_probabilities = []
-    for i in probabilities:
-        if isinstance(i, np.float32):
-            floated_probabilities.append(float(i))
+    for i in range(len(probabilities)):
+        floated_probabilities.append(float(probabilities[i]))
     return floated_probabilities
 
 
@@ -118,6 +121,7 @@ def createSpectrogram(audio):
 
     else:
         secondary_result = do_secondary_prediction(expanded_sample)
+        print("Secondary result: ", secondary_result)
 
         severities = get_severity_level(secondary_result['diseases'])
 
@@ -126,5 +130,7 @@ def createSpectrogram(audio):
         floated_probabilities = convert_probabilities_to_float(secondary_result['probabilities'])
 
         secondary_result['probabilities'] = floated_probabilities
+
+        print("Secondary result: ", secondary_result)
 
         return secondary_result
