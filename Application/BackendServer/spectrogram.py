@@ -96,18 +96,13 @@ def convert_probabilities_to_float(probabilities):
     return floated_probabilities
 
 
-def createSpectrogram(audio):
+def generateResult(audio):
     # Load audio file
     y, sr = librosa.load(audio, sr=22500, duration=6)
-
     mel = generate_mel_spec(y)
-
     mfcc_1 = generate_mfcc(y)
-
     chroma_1 = generate_chroma(y)
-
     three_chanel = np.stack((mel, mfcc_1, chroma_1), axis=2)
-
     expanded_sample = expand_dimension(three_chanel)
 
     if expanded_sample is None:
@@ -121,16 +116,8 @@ def createSpectrogram(audio):
 
     else:
         secondary_result = do_secondary_prediction(expanded_sample)
-        print("Secondary result: ", secondary_result)
-
         severities = get_severity_level(secondary_result['diseases'])
-
         secondary_result['severities'] = severities
-
         floated_probabilities = convert_probabilities_to_float(secondary_result['probabilities'])
-
         secondary_result['probabilities'] = floated_probabilities
-
-        print("Secondary result: ", secondary_result)
-
         return secondary_result

@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from spectrogram import createSpectrogram
+from spectrogram import generateResult
 import random
 import librosa
 
@@ -19,7 +19,7 @@ def giveResult():
 
     audio = request.files['audio']
 
-    result = createSpectrogram(audio)
+    result = generateResult(audio)
 
     if result is None:
         return jsonify({'result': "Error occurred while generating spectrograms", 'diseases': {}})

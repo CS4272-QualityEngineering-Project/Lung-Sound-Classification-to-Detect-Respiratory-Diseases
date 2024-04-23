@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from flask import jsonify, Flask, request
 
 from spectrogram import generate_mel_spec, generate_mfcc, generate_chroma, expand_dimension, \
-    convert_probabilities_to_float, get_severity_level, createSpectrogram
+    convert_probabilities_to_float, get_severity_level, generateResult
 from classificationModel import do_primary_prediction, do_secondary_prediction, get_disease_names, get_top_3_diseases
 import numpy as np
 import librosa
@@ -149,7 +149,7 @@ def test_expand_dimension_negative():
     assert expand_dimension(input_array) is None
 
 
-def test_create_spectrogram_none(mocker):
+def test_generate_result_none(mocker):
     audio = '1.wav'
     mocker_response_expand = mocker.Mock()
     mocker_response_expand.return_value = None
@@ -160,10 +160,10 @@ def test_create_spectrogram_none(mocker):
     mocker_response_primary.return_value = True
     mocker.patch('spectrogram.do_primary_prediction', return_value=mocker_response_primary.return_value)
 
-    assert createSpectrogram(audio) is None
+    assert generateResult(audio) is None
 
 
-def test_create_spectrogram_healthy(mocker):
+def test_generate_result_healthy(mocker):
     audio = '1.wav'
     mocker_response_expand = mocker.Mock()
     mocker_response_expand.return_value = np.array([[[[1, 2, 3], [4, 5, 6]]]])
@@ -181,11 +181,11 @@ def test_create_spectrogram_healthy(mocker):
     # Set up application context using app.test_request_context()
     with app.test_request_context():
         ExpectedResult = b'{"diseases":{},"result":false}\n'
-        ActualResult = createSpectrogram(audio).data
+        ActualResult = generateResult(audio).data
         assert ActualResult == ExpectedResult
 
 
-def test_create_spectrogram_unhealthy(mocker):
+def test_generate_result_unhealthy(mocker):
     audio = '1.wav'
     mocker_response_expand = mocker.Mock()
     mocker_response_expand.return_value = np.array([[[[1, 2, 3], [4, 5, 6]]]])
@@ -204,5 +204,5 @@ def test_create_spectrogram_unhealthy(mocker):
     with app.test_request_context():
         ExpectedResult = {'diseases': ['URTI', 'Pleural Effusion', 'Asthma'],
                           'probabilities': [0.6320073, 0.20772938, 0.13448954], 'severities': [2, 3, 1]}
-        ActualResult = createSpectrogram(audio)
+        ActualResult = generateResult(audio)
         assert ActualResult == ExpectedResult
